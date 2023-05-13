@@ -1,0 +1,178 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+
+    body {
+        width: 50%;
+        max-width: 750px;
+        min-width: 480px;
+        margin: 0 auto;
+        background-color: rgb(253, 253, 212);
+    }
+    
+    .lastResult {
+        color: white;
+        padding: 7px;
+    }
+    
+    .inp {
+        color: white;
+        padding: 7px;
+    }
+    
+    button {
+        background-color: purple;
+        color: white;
+        width: 250px;
+        height: 50px;
+        border-radius: 25px;
+        font-size: 30px;
+        border: none;
+        margin-top: 30px;
+    }
+    
+    .btn {
+        background-color: yellow;
+        color:black;
+        width: 350px;
+        height: 50px;
+        border-radius: 25px;
+        font-size: 30px;
+        border-style: none;
+        margin-top: 50px;
+    }
+    
+    .inp {
+        color: black;
+        width: 550px;
+        height: 100px;
+        font-size: 10px;
+        border-style: none;
+        margin-top: 25px;
+        font-size: 45px;
+        border: 5px solid rgb(18, 123, 150);
+        text-align: center;
+    }
+    
+    
+    #game {
+        /* box-sizing: border-box; */
+        text-align: center;
+        width: 750px;
+        height: 550px;
+        background-color: rgb(18, 123, 150);
+        color: white;
+        font-size: 25px;
+    }
+    
+    h1 {
+        background-color: rgb(119, 5, 75);
+        color: white;
+        text-align: center;
+        width: 750px;
+    }
+    
+    p {
+        font-size: 20px;
+        text-align: center;
+    }
+</style>
+</head>
+<body>   
+    <h1>Number guessing game</h1>
+    <p>Try and guess a random number between 1 and 100.</p>
+    <p>You have 10 attempts to guess the right number.</p>
+    </br>
+    <div id="game">
+    <div class="form">
+      <label class="enter" for="inp">Enter your guess: </label>
+      <input type="text" id="inp" class="inp">
+      <input type="submit" value="guess" class="btn">
+    </div>
+
+
+
+    <div class="result">
+     <p class="guesses"></p>
+     <p class="lastResult"></p>
+     <p class="lowOrHi"></p>
+
+  </div>
+
+  </div>
+
+</body>
+
+
+
+<script>
+
+  let randomNumber = Math.floor(Math.random() * 100) + 1
+  let guesses = document.querySelector('.guesses')
+  let lastResult = document.querySelector('.lastResult')
+  let lowOrHi = document.querySelector('.lowOrHi')
+  let btn = document.querySelector('.btn')
+  let inp = document.querySelector('.inp')
+  let Count = 1
+  let resetButton=''
+  inp.focus()
+btn.addEventListener('click', function(){
+    let _inp = inp.value
+    if(Count == 1) {
+      guesses.innerHTML = 'Previous guesses: '
+    }
+    guesses.innerHTML += _inp + ' '
+    if(_inp == randomNumber) {
+      lastResult.innerHTML = 'Congratulations! You got it right!'
+      lastResult.style.backgroundColor = 'green'
+      lowOrHi.innerHTML = ''
+      GameOver()
+    } else if(Count == 10) {
+      lastResult.innerHTML = '!!!GAME OVER!!!'
+      lowOrHi.innerHTML = ''
+      GameOver();
+    } else {
+      lastResult.innerHTML = 'Wrong!'
+      lastResult.style.backgroundColor = 'red'
+      if(_inp < randomNumber) {
+      lowOrHi.innerHTML = 'too low!try again'
+      } else if(_inp > randomNumber) {
+        lowOrHi.innerHTML = 'too high!try again'
+      }
+    }
+    Count++
+    inp.value = ''
+    inp.focus()
+})
+function GameOver() {
+    inp.disabled = true
+    btn.disabled = true
+    resetButton = document.createElement('button')
+    resetButton.innerHTML = 'Start new game'
+    document.getElementById('game').appendChild(resetButton)
+    resetButton.addEventListener('click', reset)
+  }
+
+    function reset(){
+    Count = 1
+    let resetgame = document.querySelectorAll('.result>p')
+    for(let i = 0 ; i < resetgame.length ; i++) {
+      resetgame[i].innerHTML = ''
+    }
+    resetButton.parentNode.removeChild(resetButton)
+    inp.disabled = false
+    btn.disabled = false
+    inp.value = ''
+    inp.focus()
+    randomNumber = Math.floor(Math.random() * 100) + 1
+}
+
+</script>
+
+</html> 
